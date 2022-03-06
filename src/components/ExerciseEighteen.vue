@@ -3,7 +3,7 @@
     <h2>18.- Calificación Examen</h2>
     <div>
       <input
-        v-model="name"
+        v-model="user"
         placeholder="¿Cuál es tu nombre?"
         id="nameExerciseEighteen"
         required
@@ -27,7 +27,7 @@
     </div>
     <div id="resultExerciseEighteen">{{ result }}</div>
     <div id="resultListExerciseEighteen">
-      <h4>{{ name }}</h4>
+      <h4>{{ user }}</h4>
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title v-for="(result, index) in resultList" :key="index">
@@ -43,73 +43,56 @@
 export default {
   name: "ExerciseEighteen",
 
-  data: () => {
-    return {
-      name: "",
-      num: "",
-      subject: "",
-      result: "",
-      resultList: [],
-      numRules: [
-        (value) => !!value || "Debes incluir una nota",
-        (value) => value.length < 3 || "Debe tener un máximo de dos dígitos",
-      ],
-    };
-  },
+  data: () => ({
+    user: "",
+    num: "",
+    subject: "",
+    message: "",
+    result: "",
+    resultList: [],
+    numRules: [
+      (value) => !!value || "Debes incluir una nota",
+      (value) => value.length < 3 || "Debe tener un máximo de dos dígitos",
+    ],
+  }),
 
   methods: {
     examGrade() {
-      let num = parseInt(this.num);
-      let subject = this.subject;
+      if (this.num <= 10) {
+        if (this.num > 0 && this.num < 3) {
+          this.message = " -> Deficiente";
+        }
 
-      if (num >= 0 || num <= 10) {
-        if (num < 3) {
-          this.result =
-            "Nota: " +
-            num +
-            " - La calificación en " +
-            subject +
-            " es MUY DEFICIENTE";
+        if (this.num >= 3 && this.num < 5) {
+          this.message = " -> Insuficiente";
         }
-        if (num < 5) {
-          this.result =
-            "Nota: " +
-            num +
-            " - La calificación en " +
-            subject +
-            " es INSUFICIENTE";
+
+        if (this.num >= 5 && this.num < 6) {
+          this.message = " -> Suficiente";
         }
-        if (num < 6) {
-          this.result =
-            "Nota: " +
-            num +
-            " - La calificación en " +
-            subject +
-            " es SUFICIENTE";
+
+        if (this.num >= 6 && this.num < 7) {
+          this.message = " -> Bien";
         }
-        if (num < 7) {
-          this.result =
-            "Nota: " + num + " - La calificación en " + subject + " es BIEN";
+
+        if (this.num >= 7 && this.num < 9) {
+          this.message = " -> Notable";
         }
-        if (num < 9) {
-          this.result =
-            "Nota: " + num + " - La calificación en " + subject + " es NOTABLE";
+
+        if (this.num >= 9 && this.num < 10) {
+          this.message = " -> Sobresaliente";
         }
-        if (num <= 10) {
-          this.result =
-            "Nota: " +
-            num +
-            " - La calificación en " +
-            subject +
-            " es SOBRESALIENTE";
-        }
-      } else {
-        this.result = "Introduzca una nota entre 0 y 10";
       }
 
-      num = "";
-      subject = "";
-      this.resulList += this.resulList.push(this.result);
+      if (this.num > 10 || this.num < 0) {
+        alert("This calificación is not valid");
+      }
+
+      this.result = this.subject + this.message;
+      this.resultList.push(this.result);
+
+      this.num = "";
+      this.subject = "";
     },
   },
 };
