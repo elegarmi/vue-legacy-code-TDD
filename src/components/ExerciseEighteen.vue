@@ -8,18 +8,19 @@
         id="nameExerciseEighteen"
         required
       />
-      <input
-        v-model="num"
-        placeholder="Escriba su nota (entre 0 y 10)"
-        id="numExerciseEighteen"
-        :rules="numRules"
-        required
-      />
 
       <input
         v-model="subject"
         placeholder="Escriba la materia"
         id="subjectExerciseEighteen"
+        required
+      />
+
+      <input
+        v-model="num"
+        placeholder="Escriba su nota (entre 0 y 10)"
+        id="numExerciseEighteen"
+        :rules="numRules"
         required
       />
 
@@ -60,27 +61,27 @@ export default {
     examGrade() {
       if (this.num <= 10) {
         if (this.num > 0 && this.num < 3) {
-          this.message = " -> Deficiente";
+          this.message = ": Deficiente";
         }
 
         if (this.num >= 3 && this.num < 5) {
-          this.message = " -> Insuficiente";
+          this.message = ": Insuficiente";
         }
 
         if (this.num >= 5 && this.num < 6) {
-          this.message = " -> Suficiente";
+          this.message = ": Suficiente";
         }
 
         if (this.num >= 6 && this.num < 7) {
-          this.message = " -> Bien";
+          this.message = ": Bien";
         }
 
         if (this.num >= 7 && this.num < 9) {
-          this.message = " -> Notable";
+          this.message = ": Notable";
         }
 
         if (this.num >= 9 && this.num < 10) {
-          this.message = " -> Sobresaliente";
+          this.message = ": Sobresaliente";
         }
       }
 
@@ -88,11 +89,16 @@ export default {
         alert("This calificación is not valid");
       }
 
-      this.result = this.subject + this.message;
+      this.result =
+        this.subject.charAt(0).toUpperCase() +
+        this.subject.slice(1) +
+        " = " +
+        this.num +
+        this.message;
       this.resultList.push(this.result);
 
-      this.num = "";
       this.subject = "";
+      this.num = "";
     },
   },
 };
@@ -100,14 +106,13 @@ export default {
 
 <style lang="scss">
 #exercise-eighteen-container {
-  // max-width: 50%;
-  // margin: 0 auto;
+  max-width: 50%;
 
   & > div > * {
     margin-top: 1rem;
   }
 
-  input#numExerciseEighteen {
+  input {
     display: block;
     min-width: 14rem;
   }
